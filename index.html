@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Odwrócona notacja polska</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<p>repo: <a href="https://github.com/Ptelka/onp.github.io">https://github.com/Ptelka/onp.github.io</a></p>
+
+
+<table id="operators">
+    <tr>
+        <td>Nazwa</td>
+        <td>Operator</td>
+        <td>Priorytet</td>
+    </tr>
+    <tr>
+        <td>Nawias otwierający</td>
+        <td>(</td>
+        <td>0</td>
+    </tr>
+    <tr>
+        <td>Nawias zamykający</td>
+        <td>)</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Dodawanie, odejmowanie</td>
+        <td>+, -</td>
+        <td>1</td>
+    </tr>
+    <tr>
+        <td>Mnożenie, dzielenie</td>
+        <td>*, /</td>
+        <td>2</td>
+    </tr>
+    <tr>
+        <td>Potęgowanie</td>
+        <td>^</td>
+        <td>3</td>
+    </tr>
+    <tr>
+        <td>Negacja, sinus, cosinus, tangens, cotangens</td>
+        <td>!, sin, cos, tg, ctg</td>
+        <td>4</td>
+    </tr>
+</table>
+
+<span style="display:block; height:50px;"></span>
+<b>Przykład: a + b - (7 * sinc)^4</b>
+<span style="display:block; height:20px;"></span>
+
+<input type="text" name="enter" class="enter" value="" id="text_input"/>
+<input type="button" value="ok" OnClick="onClick()"/>
+
+<span style="display:block; height:10px;"></span>
+
+<table id="table" class="greyGridTable">
+    <tr>
+        <td>Wyrażenie</td>
+        <td>Stos</td>
+        <td>Wynik</td>
+        <td>Typ</td>
+        <td>Wartość</td>
+        <td>Priorytet</td>
+        <td>Działanie</td>
+    </tr>
+</table>
+
+
+<script type="text/javascript" src="onp.js"></script>
+<script type="text/javascript">
+    let input = document.getElementById('text_input');
+    let table = document.getElementById('table');
+    let originalHTML = table.innerHTML;
+
+    function onClick() {
+        let result = convert(parse(input.value));
+
+        table.innerHTML = originalHTML;
+
+        for (let step of result) {
+            let row = table.insertRow(-1);
+
+            row.insertCell(0).innerHTML = step.expressions.join(" ");
+            row.insertCell(1).innerHTML = step.stack.join(", ");
+            row.insertCell(2).innerHTML = step.result.join(" ");
+            row.insertCell(3).innerHTML = step.expression.type;
+            row.insertCell(4).innerHTML = step.expression.value;
+            row.insertCell(5).innerHTML = step.expression.priority;
+            row.insertCell(6).innerHTML = OperationDescriptions.get(step.expression.type);
+        }
+    }
+</script>
+<body>
+
+</body>
+</html>
